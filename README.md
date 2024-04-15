@@ -10,3 +10,9 @@ Sistema para Gerenciamento de Despensas de Cozinha.
 
        source env/bin/activate  # No Windows use `env\Scripts\activate`
        ```
+2. Clonar o arquivo .env_example e renomear para .env
+3. Preencher corretamente as variáveis do .env
+4. Criar um novo database com o nome "kitchen_inventory"
+5. Executar as migrations: "python -m manage migrate"
+6. Criar um superusuario: "python -m manage createsuperuser"
+7. Executar o servidor: "python -m manage runserver"
