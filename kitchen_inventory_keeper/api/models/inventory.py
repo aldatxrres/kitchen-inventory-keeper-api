@@ -3,7 +3,7 @@ from api.models.base import BaseModel
 from account.models import UserAccount
 
 class InventoryModel(BaseModel):
-    description = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     users = models.ManyToManyField(UserAccount, through="UsersInventory")
 
     class Meta:
