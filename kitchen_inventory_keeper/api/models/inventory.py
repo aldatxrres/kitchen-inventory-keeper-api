@@ -11,8 +11,8 @@ class InventoryModel(BaseModel):
 
 
 class UsersInventory(BaseModel):
-    user = models.ForeignKey(UserAccount, on_delete=models.PROTECT)
-    inventory = models.ForeignKey(InventoryModel, on_delete=models.PROTECT)
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    inventory = models.ForeignKey(InventoryModel, on_delete=models.CASCADE)
     inventory_owner = models.BooleanField(default=False)
 
     class Meta:
@@ -23,7 +23,7 @@ class InventoryItemsModel(BaseModel):
     name = models.CharField(max_length=255)
     qty = models.IntegerField()
     expiration_date = models.DateField()
-    inventory = models.ForeignKey(InventoryModel, on_delete=models.PROTECT)
+    inventory = models.ForeignKey(InventoryModel, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "inventory_items"
