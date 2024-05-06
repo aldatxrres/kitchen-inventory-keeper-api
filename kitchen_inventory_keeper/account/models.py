@@ -29,7 +29,7 @@ class UserAccountManager(BaseUserManager):
         """
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
-        extra_fields.setdefault("is_active", False)
+        extra_fields.setdefault("is_active", True)
 
         return self._create_user(email, password, **extra_fields)
 
@@ -60,7 +60,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
         default=True,
         help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
     )
-    accepted_policy = models.BooleanField(default=False)
+    accepted_policy = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
