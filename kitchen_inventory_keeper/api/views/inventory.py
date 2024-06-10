@@ -1,7 +1,10 @@
 from rest_framework import viewsets
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db import transaction
+from datetime import datetime
 
 from api.models.inventory import InventoryModel, UsersInventory, InventoryItemsModel
 from api.serializers.inventory import InventorySerializer, InventoryItemsSerializer
@@ -35,3 +38,10 @@ class InventoryItemsViewSet(viewsets.ModelViewSet):
             return InventoryItemsModel.objects.all()
 
         return InventoryItemsModel.objects.filter(inventory__users=self.request.user)
+
+
+    @action(methods=["GET"], detail=False)
+    def get_expired_items(self, request):
+        queryset = self.get_queryset().filter(expiration_date__lte=datetime.now().date())
+        serializer = InventoryItemsSerializer(queryset, many=True)
+        return Response(serializer.data)
