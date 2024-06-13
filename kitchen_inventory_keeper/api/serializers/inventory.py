@@ -12,3 +12,10 @@ class InventoryItemsSerializer(serializers.ModelSerializer):
     class Meta:
         fields = "__all__"
         model = InventoryItemsModel
+    
+
+class ExpiredItemsSerializer(serializers.ModelSerializer):
+    inventory = serializers.SlugRelatedField(slug_field='name', read_only=True)
+    class Meta:
+        fields = "__all__"
+        model = InventoryItemsModel

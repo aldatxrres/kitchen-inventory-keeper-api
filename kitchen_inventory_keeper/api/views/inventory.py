@@ -7,7 +7,8 @@ from django.db import transaction
 from datetime import datetime
 
 from api.models.inventory import InventoryModel, UsersInventory, InventoryItemsModel
-from api.serializers.inventory import InventorySerializer, InventoryItemsSerializer
+from api.serializers.inventory import InventorySerializer, InventoryItemsSerializer, ExpiredItemsSerializer
+from api.pagination import CustomLimitOffsetPagination
 
 class InventoryViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -43,5 +44,10 @@ class InventoryItemsViewSet(viewsets.ModelViewSet):
     @action(methods=["GET"], detail=False)
     def get_expired_items(self, request):
         queryset = self.get_queryset().filter(expiration_date__lte=datetime.now().date())
-        serializer = InventoryItemsSerializer(queryset, many=True)
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = ExpiredItemsSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = ExpiredItemsSerializer(queryset, many=True)
         return Response(serializer.data)
